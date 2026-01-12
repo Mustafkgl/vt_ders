@@ -1,4 +1,16 @@
-andır, tablolar arası ilişki kurar.
+# VERİ TABANI VE YÖNETİMİ - SINAV HAZIRLIK NOTLARI
+
+## 1. TEMEL KAVRAMLAR
+
+### 1.1 İlişkisel Veri Tabanı Nedir?
+İlişkisel veri tabanı, verilerin tablolar (ilişkiler) halinde saklandığı ve bu tablolar arasında ilişkilerin kurulduğu veri tabanı modelidir. "İlişkisel" adı, veriler arasındaki ilişkilerden gelir.
+
+### 1.2 Temel Kavramlar
+- **Veri Tabanı**: Verilerin düzenli ve yapısal olarak saklandığı sistemdir.
+- **VTYS (Veri Tabanı Yönetim Sistemi)**: Veri tabanlarını oluşturmak, yönetmek ve sorgulamak için kullanılan yazılımlardır (örn: SQL Server, MySQL, Oracle).
+- **Tablo**: Verilerin satır ve sütunlar halinde tutulduğu yapılardır.
+- **Primary Key (Birincil Anahtar)**: Tablodaki her kaydı benzersiz şekilde tanımlayan alandır.
+- **Foreign Key (İkincil/Yabancı Anahtar)**: Başka bir tablonun primary key'ine referans veren alandır, tablolar arası ilişki kurar.
 
 ### 1.3 SQL Alt Dil Grupları
 SQL dili, işlevlerine göre alt gruplara ayrılır:
