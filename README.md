@@ -1,4 +1,4 @@
-# VERİ TABANI VE YÖNETİMİ - SINAV HAZIRLIK NOTLARI
+# VERİ TABANI VE YÖNETİMİ - SINAV HAZIRLIK
 
 ## 1. TEMEL KAVRAMLAR
 
@@ -424,39 +424,7 @@ END;
 
 ---
 
-## 7. ARA SINAV BİLGİLERİ
-
-### 7.1 Sınav Tarihi ve Süresi
-- **Tarih**: 22/11/2024
-- **Saat**: 10:00
-- **Süre**: 90 dakika
-
-### 7.2 Soru Dağılımı
-1. **Kavramsal Sorular** (20 puan)
-   - İlişkisel veri tabanı tanımı
-   - VTYS kavramları (tablo, PK, FK)
-   - SQL alt dil grupları
-   - VTYS üstünlükleri
-
-2. **E-R Diyagramı** (35 puan)
-   - Senaryo analizi
-   - Varlık ve ilişki belirleme
-   - Diyagram çizimi (20p)
-   - Tablo dönüşümü (15p)
-
-3. **SQL Kodlama** (15 puan)
-   - CREATE DATABASE (7.5p)
-   - CREATE TABLE (7.5p)
-
-4. **SELECT Sorguları** (20 puan)
-   - DISTINCT, ORDER BY
-   - WHERE, LIKE
-   - Subquery
-   - TOP
-
----
-
-## 8. ÖZET KONTROL LİSTESİ
+## 7. ÖZET KONTROL LİSTESİ
 
 ### Temel Kavramlar
 - [ ] İlişkisel veri tabanı tanımı
@@ -495,7 +463,7 @@ END;
 
 ---
 
-## 9. ÖNEMLİ NOTLAR
+## 8. ÖNEMLİ NOTLAR
 
 1. **E-R Diyagramında İlişki Belirleme:**
    - "Bir X'in birçok Y'si olabilir" → 1:N
