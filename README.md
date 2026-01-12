@@ -1,599 +1,85 @@
-# VERİTABANI SINAVI HAZIRLIK DOKÜMANI (2025-2026)
-## KTÜ OF TEKNOLOJİ FAKÜLTESİ - YAZILIM MÜHENDİSLİĞİ
+andır, tablolar arası ilişki kurar.
 
-**Tarih:** 13 Ocak 2026
-**Sınav Tarihi:** 22 Kasım 2024 Geçmiş Sınav Analizi
-**Kaynak:** VT_Guz_arasinav.pdf, er-iliski-odev.pdf, VT 2025-2026 Ders Notları
+### 1.3 SQL Alt Dil Grupları
+SQL dili, işlevlerine göre alt gruplara ayrılır:
 
----
+1. **DDL (Data Definition Language - Veri Tanımlama Dili)**
+   - Veri tabanı yapısını tanımlar
+   - Komutlar: CREATE, ALTER, DROP, TRUNCATE
+   - Örnek: `CREATE TABLE ogrenciler (ogrenci_no INT PRIMARY KEY)`
 
-## 📋 İÇİNDEKİLER
+2. **DML (Data Manipulation Language - Veri İşleme Dili)**
+   - Verileri ekleme, güncelleme, silme işlemleri
+   - Komutlar: INSERT, UPDATE, DELETE, SELECT
+   - Örnek: `INSERT INTO ogrenciler VALUES (101, 'Ahmet')`
 
-1. [Hocanın Gerçek Sınav Profili](#gerçek-sinav-profili)
-2. [2024 Ara Sınav Soruları ve Çözümleri](#2024-ara-sinav)
-3. [Veritabanı Temel Kavramlar](#temel-kavramlar)
-4. [SQL Alt Dilleri](#sql-alt-dilleri)
-5. [VTYS Üstünlükleri](#vtys-ustunlukleri)
-6. [E-R Modelleme](#e-r-modelleme)
-7. [SQL Komutları](#sql-komutları)
-8. [Örnek Sorular ve Çözümler](#ornek-sorular)
+3. **DCL (Data Control Language - Veri Kontrol Dili)**
+   - Kullanıcı yetkilendirme işlemleri
+   - Komutlar: GRANT, REVOKE
+   - Örnek: `GRANT SELECT ON ogrenciler TO kullanici1`
 
----
+4. **TCL (Transaction Control Language - İşlem Kontrol Dili)**
+   - Transaction yönetimi
+   - Komutlar: COMMIT, ROLLBACK, SAVEPOINT
 
-## GERÇEK SINAV PROFİLİ
-
-### 📊 Sınav Formatı (22/11/2024 - 90 dakika - 100 Puan):
-
-| Soru No | Konu | Puan | Zorluk |
-|---------|------|------|--------|
-| 1 | Temel Tanımlar (İlişkisel DB, VTYS, SQL alt dilleri) | 20P | Kolay |
-| 2 | VTYS Üstünlükleri | 10P | Kolay |
-| 3 | E-R Modelleme (Kütüphane) | 35P | Orta-Zor |
-| 4 | SQL Kod Yazma (CREATE DB, CREATE TABLE) | 15P | Orta |
-| 5 | Sorgu Çıktısı Tahmin Etme | 20P | Orta |
-
-### ⚠️ ÖNEMLİ NOTLAR:
-- ✅ Sınav **temel seviye** - ileri konular YOK
-- ✅ E-R modelleme çok önemli (%35)
-- ✅ Tanımları ezberlemek şart
-- ✅ SQL kod yazımında syntax çok önemli
-- ❌ PIVOT, CTE, Window Functions, Trigger, SP çıkmıyor!
+### 1.4 VTYS'nin Dosyalama Sistemlerine Göre Üstünlükleri
+- **Veri Bütünlüğü**: Primary key, foreign key gibi kısıtlamalarla veri tutarlılığı sağlanır
+- **Veri Tekrarının Azaltılması**: Normalizasyon ile gereksiz veri tekrarı önlenir
+- **Eşzamanlı Erişim**: Birden fazla kullanıcı aynı anda veriye erişebilir
+- **Veri Güvenliği**: Kullanıcı yetkilendirme sistemi ile güvenlik sağlanır
+- **Yedekleme ve Kurtarma**: Otomatik yedekleme ve veri kurtarma mekanizmaları vardır
+- **Sorgulama Kolaylığı**: SQL ile karmaşık sorgular kolayca yapılabilir
+- **Veri Bağımsızlığı**: Fiziksel ve mantıksal veri bağımsızlığı sağlanır
 
 ---
 
-## 2024 ARA SINAV SORULARI VE ÇÖZÜMLERİ
+## 2. E-R (VARLIK-İLİŞKİ) DİYAGRAMI
 
-### SORU 1: Temel Tanımlar (20 Puan)
+### 2.1 E-R Diyagramı Nedir?
+Varlık-İlişki diyagramı, gerçek hayat senaryolarını veri tabanı modeline dönüştürmek için kullanılan görsel modeldir. Varlıkları (entity) ve aralarındaki ilişkileri gösterir.
 
-#### a) İlişkisel veri tabanı ne demektir? Neden bu şekilde adlandırılmış olabilir? (5P)
+### 2.2 İlişki Türleri
+- **1:1 (Bire-Bir)**: Bir varlık diğer varlıkla sadece bir kez ilişkilidir
+- **1:N (Bire-Çok)**: Bir varlık diğer varlıkla birden fazla kez ilişkilidir
+- **N:M (Çoka-Çok)**: Her iki varlık da birden fazla kez ilişkilidir (ara tablo gerektirir)
 
-**CEVAP:**
-İlişkisel veri tabanı, verilerin tablolar (ilişkiler/relations) halinde organize edildiği ve tablolar arasında ilişkilerin kurulduğu veri tabanı modelidir.
+### 2.3 Tablo Dönüşüm Kuralları
+- **1:1 ilişki**: Bir, iki veya üç tablo olabilir. Zorunlu olmayan tarafın anahtarı, zorunlu tarafa alan olarak eklenir.
+- **1:N ilişki**: İki veya üç tablo. 1 derecelinin (parent) anahtarı, N dereceliye (child) alan olarak eklenir.
+- **N:M ilişki**: Üç tablo gerekir (iki ana tablo + bir ara tablo). Ara tabloda her iki tablonun primary key'leri foreign key olarak bulunur.
 
-**Neden "İlişkisel" denir:**
-1. **Tablolar arasında ilişkiler** vardır (Foreign Key ile)
-2. **Matematiksel ilişki teorisine** dayanır
-3. Her tablo bir **ilişki kümesini** (relation) temsil eder
-4. **İlişkisel cebir** operasyonları kullanılır (JOIN, UNION vb.)
+### 2.4 Örnek Senaryolar
 
-**Örnek:**
-- Öğrenci tablosu ve Ders tablosu arasında "kayıt olma" ilişkisi
-- Müşteri ve Sipariş tabloları arasında "sipariş verme" ilişkisi
-
----
-
-#### b) Veri tabanı, VTYS, tablo, primary key, foreign key kavramlarını açıklayınız. (10P)
-
-**CEVAP:**
-
-**1. Veri Tabanı (Database):**
-Birbiriyle ilişkili verilerin düzenli ve yapılandırılmış şekilde saklandığı dijital depodur.
-
-**2. Veri Tabanı Yönetim Sistemi (VTYS):**
-Veri tabanlarını oluşturmak, yönetmek, sorgulamak için kullanılan yazılımdır. (Örnek: SQL Server, MySQL, Oracle)
-
-**3. Tablo (Table):**
-Satır ve sütunlardan oluşan, belirli bir varlığa ait verileri saklayan yapıdır. Her satır bir kayıt (record), her sütun bir özellik (attribute) belirtir.
-
-**4. Primary Key (Birincil Anahtar):**
-Tablodaki her kaydı benzersiz şekilde tanımlayan sütun veya sütun kombinasyonudur. NULL olamaz, tekil olmalıdır.
-
-**5. Foreign Key (Yabancı Anahtar/İkincil Anahtar):**
-Başka bir tablonun Primary Key'ine referans veren sütundur. Tablolar arası ilişki kurar, veri bütünlüğünü sağlar.
-
-**Örnek:**
-```sql
-Ogrenci Tablosu:
-OgrenciID (PK) | Ad | Soyad | BolumID (FK)
-
-Bolum Tablosu:
-BolumID (PK) | BolumAd
-```
-
----
-
-#### c) SQL kaç alt dil grubundan oluşur? Her birini tanımlayarak örneklendiriniz. (5P)
-
-**CEVAP:**
-
-SQL **4 alt dil grubundan** oluşur:
-
-**1. DDL (Data Definition Language) - Veri Tanımlama Dili:**
-- **Görevi:** Veritabanı yapısını oluşturma, değiştirme, silme
-- **Komutlar:** CREATE, ALTER, DROP, TRUNCATE
-- **Örnek:**
-```sql
-CREATE TABLE Ogrenci (OgrenciID INT PRIMARY KEY, Ad NVARCHAR(50));
-ALTER TABLE Ogrenci ADD Email NVARCHAR(100);
-DROP TABLE Ogrenci;
-```
-
-**2. DML (Data Manipulation Language) - Veri İşleme Dili:**
-- **Görevi:** Verileri ekleme, güncelleme, silme, sorgulama
-- **Komutlar:** SELECT, INSERT, UPDATE, DELETE
-- **Örnek:**
-```sql
-INSERT INTO Ogrenci VALUES (1, 'Ali');
-UPDATE Ogrenci SET Ad = 'Ahmet' WHERE OgrenciID = 1;
-DELETE FROM Ogrenci WHERE OgrenciID = 1;
-SELECT * FROM Ogrenci;
-```
-
-**3. DCL (Data Control Language) - Veri Kontrol Dili:**
-- **Görevi:** Kullanıcı yetkilendirme ve izin yönetimi
-- **Komutlar:** GRANT, REVOKE
-- **Örnek:**
-```sql
-GRANT SELECT ON Ogrenci TO Kullanici1;
-REVOKE DELETE ON Ogrenci FROM Kullanici1;
-```
-
-**4. TCL (Transaction Control Language) - İşlem Kontrol Dili:**
-- **Görevi:** Transaction (işlem) yönetimi
-- **Komutlar:** COMMIT, ROLLBACK, SAVEPOINT
-- **Örnek:**
-```sql
-BEGIN TRANSACTION;
-UPDATE Hesap SET Bakiye = Bakiye - 100 WHERE HesapNo = '123';
-COMMIT; -- veya ROLLBACK;
-```
-
----
-
-### SORU 2: VTYS Üstünlükleri (10 Puan)
-
-**Dosyalama sistemlerine alternatif olarak geliştirilen VTYS'nin üstünlüklerini açıklayınız.**
-
-**CEVAP:**
-
-**1. Veri Tekrarını Azaltma (Data Redundancy):**
-Aynı veri birden fazla yerde saklanmaz, tek bir yerde tutulur ve referans edilir.
-
-**2. Veri Tutarlılığı (Data Consistency):**
-Veri bir yerde güncellendiğinde tüm sistem için geçerli olur, çelişkili veri oluşmaz.
-
-**3. Veri Bütünlüğü (Data Integrity):**
-Constraint'ler (PRIMARY KEY, FOREIGN KEY, CHECK) ile veri doğruluğu garanti edilir.
-
-**4. Veri Güvenliği (Data Security):**
-Kullanıcı bazlı yetkilendirme sistemi, şifreleme, erişim kontrolü sağlanır.
-
-**5. Veri Bağımsızlığı (Data Independence):**
-- **Fiziksel Bağımsızlık:** Dosya yapısı değişse de uygulama etkilenmez
-- **Mantıksal Bağımsızlık:** Tablo yapısı değişse bile view'ler ile uyumluluk sağlanır
-
-**6. Eşzamanlı Erişim (Concurrent Access):**
-Birden fazla kullanıcı aynı anda veri tabanına erişebilir, deadlock önlenir.
-
-**7. Yedekleme ve Kurtarma (Backup & Recovery):**
-Otomatik yedekleme, transaction log ile veri kaybı önlenir.
-
-**8. Veri Paylaşımı (Data Sharing):**
-Merkezi veri deposu sayesinde tüm kullanıcılar güncel veriye erişir.
-
-**9. Standardizasyon:**
-SQL gibi standart diller sayesinde farklı sistemler arası uyumluluk sağlanır.
-
-**10. Sorgu Kolaylığı:**
-Karmaşık raporlar SQL ile kolayca oluşturulur, dosya sisteminde çok zor olur.
-
----
-
-### SORU 3: E-R Modelleme - Kütüphane Sistemi (35 Puan)
-
-**Bir kütüphane için veri tabanı oluşturulmak isteniyor.**
-
-#### Kurallar:
-1. Genel olarak; **kitaplar, yazarlar, raflar, okurlar** varlık kümeleri olacaktır.
-2. Bir yazarın **birden fazla** kitabı olabilir, her kitabın **en fazla bir** yazarı vardır. (1:N)
-3. Raflar A-Z'ye kadar numaralandırılmıştır, bir rafta **birden fazla** kitap olabilir, bazı raflar kullanılmayabilir, bir kitap **iki rafta olamaz**. (1:N)
-4. Tüm üyeler kitap almak **zorunda değildir**, bir üye **birden fazla kitap alamaz**, bir kitap **birden fazla üyeye verilemez**. (1:0..1)
-
-⚠️ **ÇOK ÖNEMLİ:** Soru 4'teki kural, N:M ilişki DEĞİL! Bir üye aynı anda sadece 1 kitap alabilir.
-
----
-
-#### a) E-R Diyagramını Çiziniz (20P)
-
-**CEVAP:**
-
-```
-┌──────────┐              ┌──────────┐              ┌──────────┐
-│  YAZAR   │              │  KİTAP   │              │   RAF    │
-├──────────┤              ├──────────┤              ├──────────┤
-│YazarID PK│1           N │KitapID PK│N           1 │ RafNo PK │
-│Ad        │─────yazar────│Baslik    │─────bulunur──│ Konum    │
-│Soyad     │              │YazarID FK│              │ Kapasite │
-│DogumYili │              │RafNo FK  │              └──────────┘
-└──────────┘              │YayinYili │
-                          │ISBN      │
-                          └──────────┘
-                                │
-                                │ 1
-                                │
-                          ┌─────┴─────┐
-                          │  ÖDÜNÇ    │ (İlişki)
-                          │   ALMA    │
-                          ├───────────┤
-                          │AlisTarihi │
-                          │TeslimTar. │
-                          └─────┬─────┘
-                                │
-                                │ 0..1
-                                │
-                          ┌──────────┐
-                          │  OKUR    │
-                          ├──────────┤
-                          │OkurID PK │
-                          │TcNo      │
-                          │Ad        │
-                          │Soyad     │
-                          │Telefon   │
-                          └──────────┘
-```
-
-**Kardinalite Açıklamaları:**
-- **Yazar-Kitap:** 1:N (Bir yazar birden fazla kitap yazar, her kitabın 1 yazarı var)
-- **Raf-Kitap:** 1:N (Bir rafta birden fazla kitap, her kitap 1 rafta)
-- **Kitap-Okur:** 1:0..1 (Bir kitap 0 veya 1 okura verilebilir, bir okur 0 veya 1 kitap alabilir)
-
----
-
-#### b) Tabloları Belirtiniz (15P)
-
-**CEVAP:**
-
-**1. Yazar Tablosu:**
-```
-Yazar(YazarID, Ad, Soyad, DogumYili, Ulke)
-- YazarID: Primary Key
-```
-
-**2. Raf Tablosu:**
-```
-Raf(RafNo, Konum, Kapasite)
-- RafNo: Primary Key (A, B, C, ... Z)
-```
-
-**3. Kitap Tablosu:**
-```
-Kitap(KitapID, ISBN, Baslik, YayinYili, SayfaSayisi, YazarID, RafNo)
-- KitapID: Primary Key
-- YazarID: Foreign Key → Yazar(YazarID)
-- RafNo: Foreign Key → Raf(RafNo)
-```
-
-**4. Okur Tablosu:**
-```
-Okur(OkurID, TcNo, Ad, Soyad, Telefon, Email, KayitTarihi)
-- OkurID: Primary Key
-- TcNo: UNIQUE (11 karakter)
-```
-
-**5. OduncAlma Tablosu:**
-```
-OduncAlma(OduncID, KitapID, OkurID, AlisTarihi, TeslimTarihi, BeklenenTeslimTarihi)
-- OduncID: Primary Key
-- KitapID: Foreign Key → Kitap(KitapID) UNIQUE
-- OkurID: Foreign Key → Okur(OkurID) UNIQUE
-- Bir kitap aynı anda sadece 1 okurda olabilir (KitapID UNIQUE)
-- Bir okur aynı anda sadece 1 kitap alabilir (OkurID UNIQUE)
-```
-
-**İlişki Kuralları:**
-- 1-N ilişki: Foreign Key **N tarafına** eklenir (Kitap tablosuna YazarID ve RafNo)
-- 1-0..1 ilişki: Ayrı tablo oluşturulur (OduncAlma), her iki taraf da UNIQUE olmalı
-
----
-
-### SORU 4: SQL Kod Yazma (15 Puan)
-
-#### a) CREATE DATABASE Komutu (7.5P)
-
-**Soru:** Birincil ve log dosya bilgileri aşağıdaki gibi olan bir vt'yi (ogrenci adında) oluşturan SQL kodları yazınız.
-
-**Birincil dosya:**
-- Dosya adı: ogrenci_veri
-- Dosya yolu: 'D:\data\ogrenci.mdf'
-- Boyutu: 10 MB
-- En büyük boyut: 100 MB
-- Büyüme oranı: %25
-
-**Log dosya:**
-- Dosya adı: o_veri_log
-- Dosya yolu: 'D:\data\ogrenci.ldf'
-- Boyutu: 5 MB
-- En büyük boyut: 50 MB
-- Büyüme oranı: %25
-
-**CEVAP:**
-
-```sql
-CREATE DATABASE ogrenci
-ON PRIMARY
-(
-    NAME = ogrenci_veri,
-    FILENAME = 'D:\data\ogrenci.mdf',
-    SIZE = 10MB,
-    MAXSIZE = 100MB,
-    FILEGROWTH = 25%
-)
-LOG ON
-(
-    NAME = o_veri_log,
-    FILENAME = 'D:\data\ogrenci.ldf',
-    SIZE = 5MB,
-    MAXSIZE = 50MB,
-    FILEGROWTH = 25%
-);
-```
-
-**Parametre Açıklamaları:**
-- **NAME:** Mantıksal dosya adı (SQL Server içinde kullanılır)
-- **FILENAME:** Fiziksel dosya yolu (disk üzerinde)
-- **SIZE:** Başlangıç boyutu
-- **MAXSIZE:** Maksimum büyüyebileceği boyut (UNLIMITED yazılırsa sınırsız)
-- **FILEGROWTH:** Dosya dolduğunda ne kadar büyüyeceği (% veya MB)
-
----
-
-#### b) CREATE TABLE Komutu (7.5P)
-
-**Soru:** ogrenci_no, tckimlikno, ad, soyad alanlarından oluşan bir tabloyu (tblogrenci) oluşturan SQL kodlarını yazınız.
-
-**Özellikler:**
-- Öğrenci_no alanı: **1000'den başlayarak 1'er artacak** şekilde
-- tckimlikno: **11 karakter** olacak metin (**sabit uzunlukta** – Unicode kodlama)
-- ad ve soyad: **20 karakterden** oluşacak metin (**değişken uzunlukta**, Unicode kodlama)
-
-**CEVAP:**
-
-```sql
-CREATE TABLE tblogrenci
-(
-    ogrenci_no INT IDENTITY(1000, 1) PRIMARY KEY,
-    tckimlikno NCHAR(11) NOT NULL,
-    ad NVARCHAR(20) NOT NULL,
-    soyad NVARCHAR(20) NOT NULL
-);
-```
-
-**Veri Tipi Açıklamaları:**
-
-| Veri Tipi | Açıklama | Kullanım |
-|-----------|----------|----------|
-| **INT** | Tam sayı | ID, sayılar |
-| **IDENTITY(1000, 1)** | 1000'den başla, 1'er artır | Otomatik artan ID |
-| **NCHAR(11)** | Sabit 11 karakter, Unicode | TC Kimlik No (her zaman 11) |
-| **NVARCHAR(20)** | Değişken 0-20 karakter, Unicode | Ad, Soyad (Türkçe karakter) |
-| **NOT NULL** | Boş bırakılamaz | Zorunlu alan |
-
-**NCHAR vs NVARCHAR Farkı:**
-
-```sql
--- NCHAR(11): Her zaman 11 karakter yer kaplar
-DECLARE @tc NCHAR(11) = '12345';  -- '12345      ' (6 boşluk eklenir)
-
--- NVARCHAR(20): Sadece kullanılan kadar yer kaplar
-DECLARE @ad NVARCHAR(20) = 'Ali';  -- 'Ali' (3 karakter)
-```
-
-**Ne Zaman Hangisi:**
-- ✅ **NCHAR:** Sabit uzunluklu veriler (TC No, Tel No, Plaka)
-- ✅ **NVARCHAR:** Değişken uzunluklu veriler (Ad, Soyad, Adres)
-- ✅ **N öneki:** Türkçe karakter desteği için (Ç, Ş, Ğ, İ, Ö, Ü)
-
----
-
-### SORU 5: Sorgu Çıktısı Tahmin Etme (20 Puan)
-
-**Örnek Tablo (tblurun):**
-
-| urunkod | urunad              | listefiyat | marka     |
-|---------|---------------------|------------|-----------|
-| A1      | Bilgisayar          | 2500       | Vestel    |
-| A2      | Barkod okuyucu      | 500        | Vestel    |
-| A3      | Mouse               | 75         | Microsoft |
-| A4      | Mouse               | 40         | A4 Tech   |
-| A5      | Modem               | 120        | Zyxel     |
-| A6      | Monitor             | 500        | Vestel    |
-| A7      | Monitor             | 800        | Samsung   |
-| A8      | Cep Telefonu        | 1800       | Vodafone  |
-| A9      | Monitor             | 1000       | Viewsonic |
-| A10     | Cep Telefonu        | 2000       | Microsoft |
-| A11     | Harici Disk Sürücü  | 250        | Samsung   |
-
----
-
-#### a) SELECT DISTINCT marka FROM tblurun ORDER BY marka DESC
-
-**CEVAP:**
-
-| marka     |
-|-----------|
-| Zyxel     |
-| Vodafone  |
-| Viewsonic |
-| Vestel    |
-| Samsung   |
-| Microsoft |
-| A4 Tech   |
-
-**Açıklama:**
-- **DISTINCT:** Tekrar eden markaları bir kez gösterir
-- **ORDER BY ... DESC:** Z'den A'ya sıralama (azalan)
-
----
-
-#### b) SELECT urunad, listefiyat, listefiyat*1.1 FROM tblurun WHERE marka = (SELECT marka FROM tblurun WHERE urunad='Bilgisayar')
-
-**CEVAP:**
-
-| urunad          | listefiyat | (listefiyat*1.1) |
-|-----------------|------------|------------------|
-| Bilgisayar      | 2500       | 2750.0           |
-| Barkod okuyucu  | 500        | 550.0            |
-| Monitor         | 500        | 550.0            |
-
-**Açıklama:**
-- **Subquery:** WHERE urunad='Bilgisayar' → marka = 'Vestel'
-- Vestel markasına ait 3 ürün var
-- Her ürünün fiyatı %10 zamlanmış hali hesaplanıyor
-
----
-
-#### c) SELECT urunad, listefiyat FROM tblurun WHERE marka LIKE 'M%'
-
-**CEVAP:**
-
-| urunad       | listefiyat |
-|--------------|------------|
-| Mouse        | 75         |
-| Mouse        | 40         |
-| Cep Telefonu | 2000       |
-
-**Açıklama:**
-- **LIKE 'M%':** M harfi ile başlayan markalar
-- Microsoft (2 ürün): Mouse (75), Cep Telefonu (2000)
-- Microsoft (1 ürün): Mouse (40) → YANLIŞ! A4 Tech
-- **Doğru Sonuç:** Sadece Microsoft markalı 2 ürün
-
-**DÜZELTME:**
-
-| urunad       | listefiyat |
-|--------------|------------|
-| Mouse        | 75         |
-| Cep Telefonu | 2000       |
-
----
-
-#### d) SELECT TOP(3) urunad, listefiyat FROM tblurun ORDER BY listefiyat
-
-**CEVAP:**
-
-| urunad | listefiyat |
-|--------|------------|
-| Mouse  | 40         |
-| Mouse  | 75         |
-| Modem  | 120        |
-
-**Açıklama:**
-- **ORDER BY listefiyat:** Fiyata göre artan sıralama (küçükten büyüğe)
-- **TOP(3):** İlk 3 kaydı getir
-- En ucuz 3 ürün
-
----
-
-## E-R MODELLEME ÖRNEKLERİ
-
-### ÖRNEK-1: Okul Yönetim Sistemi
-
+#### ÖRNEK 1: Okul Yönetim Sistemi
 **Kurallar:**
 1. Öğretmenler bölümlerde görev yapar. Bir bölümde birçok öğretmen olabilir ama bir öğretmen tek bir bölümde çalışır. **(1:N)**
 2. Öğrenciler derslere kayıt olur. Bir öğrenci birçok ders alabilir, bir dersi birçok öğrenci alabilir. **(N:M)**
 3. Dersler öğretmenler tarafından verilir. Bir öğretmen birçok derse girebilir. **(1:N)**
 4. Her dersin bir sınıfı vardır, bir sınıfta birden fazla ders olabilir. **(1:N)**
 
-**E-R Diyagramı:**
-
-```
-┌───────────┐         ┌────────────┐         ┌──────────┐
-│  BÖLÜM    │1      N │ ÖĞRETMEN   │1      N │   DERS   │
-├───────────┤─────────├────────────┤─────────├──────────┤
-│BolumID PK │  görev  │OgretmenID  │  verir  │DersID PK │
-│BolumAd    │         │Ad          │         │DersAd    │
-└───────────┘         │Soyad       │         │Kredi     │
-                      │BolumID FK  │         │OgretID FK│
-                      └────────────┘         │SinifNo FK│
-                                             └────┬─────┘
-                                                  │
-                                                  │ N
-                                          ┌───────┴────────┐
-                                          │  ÖĞRENCİ-DERS  │ (Junction)
-                                          ├────────────────┤
-                                          │OgrenciID FK    │
-                                          │DersID FK       │
-                                          │Vize            │
-                                          │Final           │
-                                          └────────┬───────┘
-                                                   │
-                                                   │ M
-                                             ┌─────┴─────┐
-                                             │ ÖĞRENCİ   │
-                                             ├───────────┤
-                                             │OgrenciID  │
-                                             │Ad, Soyad  │
-                                             └───────────┘
-
-┌──────────┐
-│  SINIF   │1
-├──────────┤
-│SinifNo PK│
-│Kapasite  │
-└──────────┘
-```
-
 **Tablolar:**
-```sql
-1. Bolum(BolumID, BolumAd, Mudurluk)
-2. Ogretmen(OgretmenID, Ad, Soyad, BolumID FK)
-3. Sinif(SinifNo, BlokAd, Kat, Kapasite)
-4. Ders(DersID, DersAd, Kredi, OgretmenID FK, SinifNo FK)
-5. Ogrenci(OgrenciID, TcNo, Ad, Soyad)
-6. OgrenciDers(OgrenciID FK, DersID FK, Vize, Final, Durum)
-   - PRIMARY KEY (OgrenciID, DersID)
-```
+- Bolumler(bolum_id, bolumAdi)
+- Ogretmenler(ogretmen_id, adSoyad, bolum_id)
+- Dersler(ders_id, dersAdi, ogretmen_id, sinif_id)
+- Ogrenciler(ogrenci_id, adSoyad)
+- Siniflar(sinif_id, sinifAdi)
+- OgrenciDers(ogrenci_id, ders_id) ← N:M ara tablo
 
----
-
-### ÖRNEK-2: Kargo Takip Sistemi
-
+#### ÖRNEK 2: Kargo Takip Sistemi
 **Kurallar:**
 1. Müşteriler gönderi oluşturur. Bir müşteri birçok gönderi oluşturabilir. **(1:N)**
 2. Her gönderi bir şubeden teslim edilir. Bir şube birçok gönderiyi işleyebilir. **(1:N)**
 3. Gönderi bir kargo personeline atanır. Bir personel birçok gönderi taşıyabilir ama bir gönderi sadece bir personele atanır. **(1:N)**
 4. Gönderi durumları (KargoDurum) ayrı tabloda tutulur, gönderiyle birebir ilişkilidir. **(1:1)**
 
-**E-R Diyagramı:**
-
-```
-┌──────────┐         ┌──────────┐         ┌──────────┐
-│ MÜŞTERİ  │1      N │ GÖNDERİ  │N      1 │  ŞUBE    │
-├──────────┤─oluştur─├──────────┤─teslim──├──────────┤
-│MusteriID │         │GonderiID │         │SubeID PK │
-│Ad, Soyad │         │TakipNo   │         │SubeAd    │
-│Telefon   │         │Agirlik   │         │Sehir     │
-└──────────┘         │MusteriID │         └──────────┘
-                     │SubeID FK │
-                     │PersonelID│         ┌──────────┐
-                     └────┬─────┘       1 │ PERSONEL │
-                          │               ├──────────┤
-                          │ 1           N │PersonelID│
-                     ┌────┴──────┐────────│Ad, Soyad │
-                     │KARGO DURUM│ atanır │Telefon   │
-                     ├───────────┤        └──────────┘
-                     │GonderiID  │
-                     │Durum      │
-                     │Tarih      │
-                     └───────────┘
-```
-
 **Tablolar:**
-```sql
-1. Musteri(MusteriID, TcNo, Ad, Soyad, Telefon, Adres)
-2. Sube(SubeID, SubeAd, Sehir, Telefon)
-3. Personel(PersonelID, Ad, Soyad, Telefon, SubeID FK)
-4. Gonderi(GonderiID, TakipNo, Agirlik, MusteriID FK, SubeID FK, PersonelID FK)
-5. KargoDurum(GonderiID PK FK, Durum, GuncellemeTarihi, Aciklama)
-   - 1:1 ilişki: GonderiID hem PK hem FK
-```
+- Musteriler(musteri_id, adSoyad, telefon)
+- Subeler(sube_id, subeAdi, adres)
+- Personeller(personel_id, adSoyad)
+- Gonderiler(gonderi_id, musteri_id, sube_id, personel_id, tarih)
+- KargoDurum(durum_id, gonderi_id, durum, tarih)
 
----
-
-### ÖRNEK-3: Kütüphane Otomasyonu (Alternatif - N:M)
-
-⚠️ **DİKKAT:** Bu örnek sınavdaki kütüphane senaryosundan farklı! Burada N:M ilişki var.
-
+#### ÖRNEK 3: Kütüphane Otomasyonu
 **Kurallar:**
 1. Kitaplar yazarlara aittir. Bir yazar birçok kitap yazabilir. **(1:N)**
 2. Üyeler kitap ödünç alabilir. Bir üye birçok kitap alabilir, bir kitap zaman içinde birçok üyeye verilmiş olabilir. **(N:M)**
@@ -601,262 +87,428 @@ DECLARE @ad NVARCHAR(20) = 'Ali';  -- 'Ali' (3 karakter)
 4. Kitaplar bir kategoriye aittir, bir kategori birçok kitabı kapsar. **(1:N)**
 
 **Tablolar:**
-```sql
-1. Yazar(YazarID, Ad, Soyad, Ulke)
-2. Kategori(KategoriID, KategoriAd)
-3. Kitap(KitapID, ISBN, Baslik, YazarID FK, KategoriID FK)
-4. Uye(UyeID, TcNo, Ad, Soyad)
-5. Personel(PersonelID, Ad, Soyad, Sifre)
-6. OduncAlma(OduncID, UyeID FK, KitapID FK, PersonelID FK, AlisTarihi, TeslimTarihi)
-   - PRIMARY KEY (OduncID)
-   - N:M ilişki için junction table
-```
+- Yazarlar(yazar_id, adSoyad)
+- Kategoriler(kategori_id, kategoriAdi)
+- Kitaplar(kitap_id, kitapAdi, yazar_id, kategori_id)
+- Uyeler(uye_id, adSoyad, telefon)
+- Personeller(personel_id, adSoyad)
+- Odunc(odunc_id, uye_id, kitap_id, personel_id, alisTarihi, iadeTarihi)
 
 ---
 
-## SQL TEMEL KOMUTLARI
+## 3. SQL İŞLEMLERİ
 
-### SELECT Sorguları
+### 3.1 CREATE DATABASE (Veri Tabanı Oluşturma)
 
-**1. Temel SELECT:**
 ```sql
-SELECT * FROM tblurun;
+CREATE DATABASE ogrenci
+ON PRIMARY
+(
+    NAME = ogrenci_veri,
+    FILENAME = 'D:\data\ogrenci.mdf',
+    SIZE = 10 MB,
+    MAXSIZE = 100 MB,
+    FILEGROWTH = 25%
+)
+LOG ON
+(
+    NAME = o_veri_log,
+    FILENAME = 'D:\data\ogrenci.ldf',
+    SIZE = 5 MB,
+    MAXSIZE = 50 MB,
+    FILEGROWTH = 25%
+);
+```
+
+**Parametreler:**
+- **NAME**: Dosyanın mantıksal adı
+- **FILENAME**: Fiziksel dosya yolu
+- **SIZE**: Başlangıç boyutu
+- **MAXSIZE**: Maksimum boyut
+- **FILEGROWTH**: Büyüme oranı (% veya MB)
+
+### 3.2 CREATE TABLE (Tablo Oluşturma)
+
+```sql
+CREATE TABLE tblogrenci
+(
+    ogrenci_no INT IDENTITY(1000,1) PRIMARY KEY,
+    tckimlikno NCHAR(11) NOT NULL,
+    ad NVARCHAR(20),
+    soyad NVARCHAR(20)
+);
+```
+
+**Veri Tipleri:**
+- **INT**: Tam sayı
+- **CHAR(n)**: Sabit uzunlukta metin
+- **VARCHAR(n)**: Değişken uzunlukta metin
+- **NCHAR(n)**: Unicode sabit uzunlukta metin
+- **NVARCHAR(n)**: Unicode değişken uzunlukta metin
+- **DATETIME**: Tarih ve saat
+- **IDENTITY(başlangıç, artış)**: Otomatik artan sayı
+
+### 3.3 ALTER TABLE (Tablo Değiştirme)
+
+```sql
+-- Yeni alan ekleme
+ALTER TABLE tablo_adi ADD alan_adi alan_turu;
+
+-- Örnek
+ALTER TABLE tblogrenci ADD dogumTarihi DATETIME;
+```
+
+### 3.4 INSERT (Veri Ekleme)
+
+```sql
+-- Tek satır ekleme
+INSERT INTO tbl_ogrenci (ogrNo, adSoyad, bolum_id)
+VALUES (101, 'Mert Yıldırım', 1);
+
+-- Çoklu satır ekleme
+INSERT INTO tbl_ogrenci (ogrNo, adSoyad, bolum_id)
+VALUES
+    (301239, 'Musa Aslan', 1),
+    (301240, 'İbrahim Uğur Yılmaz', 2),
+    (301241, 'Mustafa Topsakal', 3);
+```
+
+### 3.5 SELECT Sorguları
+
+#### Temel SELECT
+```sql
 SELECT urunad, listefiyat FROM tblurun;
 ```
 
-**2. DISTINCT (Tekrarsız):**
+#### DISTINCT (Tekil Değerler)
 ```sql
-SELECT DISTINCT marka FROM tblurun;
+SELECT DISTINCT marka FROM tblurun ORDER BY marka DESC;
+```
+**Sonuç:** Tekrar etmeyen marka isimleri, Z'den A'ya sıralı
+
+#### WHERE (Filtreleme)
+```sql
+SELECT urunad, listefiyat FROM tblurun
+WHERE marka = 'Microsoft';
 ```
 
-**3. WHERE (Filtreleme):**
+#### LIKE (Desen Eşleştirme)
 ```sql
-SELECT * FROM tblurun WHERE listefiyat > 500;
-SELECT * FROM tblurun WHERE marka = 'Vestel';
+SELECT urunad, listefiyat FROM tblurun
+WHERE marka LIKE 'M%';
+```
+**% işareti:** M ile başlayan tüm markalar
+
+#### ORDER BY (Sıralama)
+```sql
+SELECT urunad, listefiyat FROM tblurun
+ORDER BY listefiyat ASC;  -- Artan sıralama
 ```
 
-**4. ORDER BY (Sıralama):**
+#### TOP (İlk N Kayıt)
 ```sql
-SELECT * FROM tblurun ORDER BY listefiyat;          -- Artan (ASC)
-SELECT * FROM tblurun ORDER BY listefiyat DESC;     -- Azalan
-SELECT * FROM tblurun ORDER BY marka, listefiyat;   -- Çoklu sıralama
+SELECT TOP(3) urunad, listefiyat FROM tblurun
+ORDER BY listefiyat;
 ```
+**Sonuç:** En düşük fiyatlı 3 ürün
 
-**5. TOP (İlk N Kayıt):**
+#### Subquery (Alt Sorgu)
 ```sql
-SELECT TOP(3) * FROM tblurun ORDER BY listefiyat;
-SELECT TOP(10) PERCENT * FROM tblurun;
+SELECT urunad, listefiyat, listefiyat*1.1 FROM tblurun
+WHERE marka = (SELECT marka FROM tblurun WHERE urunad='Bilgisayar');
 ```
+**Açıklama:** Önce bilgisayarın markası bulunur, sonra o markanın tüm ürünleri listelenir
 
-**6. LIKE (Benzerlik Arama):**
+#### Hesaplamalar
 ```sql
-SELECT * FROM tblurun WHERE marka LIKE 'M%';      -- M ile başlar
-SELECT * FROM tblurun WHERE urunad LIKE '%Disk%'; -- İçinde Disk geçer
-SELECT * FROM tblurun WHERE marka LIKE '_estel';  -- _estel (5 karakter)
-```
-
-**7. IN (Liste İçinde):**
-```sql
-SELECT * FROM tblurun WHERE marka IN ('Vestel', 'Samsung', 'Microsoft');
-```
-
-**8. BETWEEN (Aralık):**
-```sql
-SELECT * FROM tblurun WHERE listefiyat BETWEEN 100 AND 1000;
-```
-
-**9. NULL Kontrol:**
-```sql
-SELECT * FROM tblurun WHERE aciklama IS NULL;
-SELECT * FROM tblurun WHERE aciklama IS NOT NULL;
+SELECT urunad, listefiyat, listefiyat*1.1 AS yeniFiyat FROM tblurun;
 ```
 
 ---
 
-### INSERT Komutu
+## 4. JOIN İŞLEMLERİ
+
+### 4.1 JOIN Nedir?
+JOIN, iki veya daha fazla tabloyu ortak alan üzerinden birleştirmeye yarar.
+
+### 4.2 RIGHT JOIN
 
 ```sql
--- Tüm sütunlar
-INSERT INTO tblogrenci VALUES (1001, '12345678901', 'Ali', 'Veli');
-
--- Belirtilen sütunlar
-INSERT INTO tblogrenci (tckimlikno, ad, soyad)
-VALUES ('12345678901', 'Ayşe', 'Yılmaz');
-
--- Birden fazla kayıt
-INSERT INTO tblogrenci (tckimlikno, ad, soyad) VALUES
-('11111111111', 'Mehmet', 'Kaya'),
-('22222222222', 'Fatma', 'Demir');
+SELECT b.bolumAdi, o.adSoyad
+FROM tbl_ogrenci o
+RIGHT JOIN tbl_bolum b
+ON o.bolum_id = b.bolum_id;
 ```
+
+**Örnek Tablolar:**
+
+**tbl_ogrenci:**
+| ogrNo | adSoyad | bolum_id |
+|-------|---------|----------|
+| 101 | Mert Yıldırım | 1 |
+| 102 | Elif Güneş | 2 |
+| 103 | Hasan Çetin | NULL |
+| 104 | Derya Polat | 4 |
+| 105 | Buse Korkmaz | 5 |
+
+**tbl_bolum:**
+| bolum_id | bolumAdi |
+|----------|----------|
+| 1 | Yazılım |
+| 2 | Elektrik |
+| 3 | Makine |
+| 6 | Endüstri |
+
+**Sonuç:**
+| bolumAdi | adSoyad |
+|----------|---------|
+| Yazılım | Mert Yıldırım |
+| Elektrik | Elif Güneş |
+| Makine | NULL |
+| Endüstri | NULL |
+
+**Açıklama:** RIGHT JOIN'de SAĞ tablodaki (tbl_bolum) TÜM satırlar gelir. Öğrencisi olmayan bölümler için adSoyad = NULL olur.
+
+### 4.3 Diğer JOIN Türleri
+- **INNER JOIN**: Her iki tabloda da eşleşen kayıtlar
+- **LEFT JOIN**: Sol tablodaki tüm kayıtlar + sağdan eşleşenler
+- **RIGHT JOIN**: Sağ tablodaki tüm kayıtlar + soldan eşleşenler
+- **FULL OUTER JOIN**: Her iki tablodaki tüm kayıtlar
 
 ---
 
-### UPDATE Komutu
+## 5. STORED PROCEDURE (SAKLANAN YORDAM)
+
+### 5.1 Stored Procedure Nedir?
+Stored Procedure, veri tabanında saklanan ve tekrar tekrar çalıştırılabilen SQL kod bloklarıdır. Karmaşık işlemleri tek bir komutla çalıştırmaya yarar.
+
+### 5.2 Avantajları
+- Performans artışı (önceden derlenmiş kod)
+- Kod tekrarını azaltır
+- Güvenlik (kullanıcılar sadece SP'yi çalıştırır, tablolara direkt erişmez)
+- Merkezi yönetim (değişiklik tek yerden yapılır)
+
+### 5.3 Örnek: Haftalık Ödünç/İade Raporu
 
 ```sql
--- Tek kayıt güncelleme
-UPDATE tblurun SET listefiyat = 2750 WHERE urunkod = 'A1';
-
--- Birden fazla sütun
-UPDATE tblogrenci
-SET ad = 'Ahmet', soyad = 'Yılmaz'
-WHERE ogrenci_no = 1000;
-
--- Hesaplama ile
-UPDATE tblurun SET listefiyat = listefiyat * 1.1 WHERE marka = 'Vestel';
+CREATE PROCEDURE sp_HaftalikRapor
+AS
+BEGIN
+    SELECT
+        o.OduncID,
+        ogr.AdSoyad,
+        kt.KitapAdi,
+        o.AlisTarihi,
+        o.IadeTarihi,
+        CASE
+            WHEN o.IadeDurumu = 1 THEN 'İade Edildi'
+            ELSE 'Teslim Bekleniyor'
+        END AS Durum
+    FROM Odunc o
+    INNER JOIN Ogrenciler ogr ON o.OgrenciID = ogr.OgrenciID
+    INNER JOIN Kitaplar kt ON o.KitapID = kt.KitapID
+    WHERE o.AlisTarihi >= DATEADD(DAY, -7, GETDATE());
+END;
 ```
+
+**Çağırma:**
+```sql
+EXEC sp_HaftalikRapor;
+```
+
+**Backend Entegrasyonu (Spring Boot):**
+```java
+@Procedure("sp_HaftalikRapor")
+List<Rapor> getWeeklyReport();
+```
+
+### 5.4 Diğer Örnekler
+- **bugunkiSiparisler**: Bugünkü siparişleri listeler
+- **Nesting Kullanımı**: Bir SP içinde başka SP çağrılabilir
+
+### 5.5 Zamanlanmış Görevler
+Stored Procedure'ler otomatik olarak çalıştırılabilir:
+- **Hangfire**: .NET için zamanlama kütüphanesi
+- **Quartz.NET**: .NET için gelişmiş zamanlama
+- **Cronjob**: Linux tabanlı zamanlama sistemi
 
 ---
 
-### DELETE Komutu
+## 6. TRIGGER (TETİKLEYİCİ)
+
+### 6.1 Trigger Nedir?
+Trigger, bir tabloda INSERT, UPDATE veya DELETE işlemi gerçekleştiğinde otomatik olarak çalışan SQL kod bloklarıdır. Veri bütünlüğünü korumak ve otomatik işlemler yapmak için kullanılır.
+
+### 6.2 Trigger Türleri
+- **AFTER Trigger**: İşlem tamamlandıktan SONRA çalışır
+- **INSTEAD OF Trigger**: İşlem YERINE çalışır
+- **INSERT Trigger**: Veri eklendiğinde çalışır
+- **UPDATE Trigger**: Veri güncellendiğinde çalışır
+- **DELETE Trigger**: Veri silindiğinde çalışır
+
+### 6.3 Özel Tablolar
+- **inserted**: Eklenen veya güncellenen YENİ verileri tutar
+- **deleted**: Silinen veya güncellenenden ÖNCEKİ verileri tutar
+
+### 6.4 Örnek: Geç İade Ceza Hesaplama
+
+**Senaryo:** Öğrenci kitabı geç iade ederse sistem otomatik olarak ceza oluşturacak. 7 günü aşan her gün için 5 TL ceza kesilir.
+
+**Tablolar:**
+- **Odunc**: (OduncID, OgrenciID, KitapID, AlisTarihi, IadeTarihi, IadeDurumu)
+- **CezaKayitlari**: (CezaID, OgrenciID, OduncID, GecikmeGun, CezaMiktari, Tarih)
 
 ```sql
--- Belirli kayıtları sil
-DELETE FROM tblurun WHERE urunkod = 'A1';
+CREATE TRIGGER trg_CezaHesapla
+ON Odunc
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @OduncID INT,
+            @OgrenciID INT,
+            @AlisTarihi DATE,
+            @IadeTarihi DATE,
+            @Gecikme INT;
 
--- Tüm kayıtları sil (dikkatli!)
-DELETE FROM tblurun;
+    -- Güncellenen kaydın bilgilerini al
+    SELECT
+        @OduncID = OduncID,
+        @OgrenciID = OgrenciID,
+        @AlisTarihi = AlisTarihi,
+        @IadeTarihi = IadeTarihi
+    FROM inserted;
 
--- TRUNCATE (daha hızlı, identity sıfırlar)
-TRUNCATE TABLE tblurun;
+    -- Gecikme gün sayısını hesapla (7 gün ücretsiz)
+    SET @Gecikme = DATEDIFF(DAY, @AlisTarihi, @IadeTarihi) - 7;
+
+    -- Eğer gecikme varsa ceza kaydı oluştur
+    IF @Gecikme > 0
+    BEGIN
+        INSERT INTO CezaKayitlari (OgrenciID, OduncID, GecikmeGun, CezaMiktari, Tarih)
+        VALUES (@OgrenciID, @OduncID, @Gecikme, @Gecikme * 5, GETDATE());
+
+        PRINT 'Ceza kaydı oluşturuldu: ' + CAST(@Gecikme * 5 AS VARCHAR(10)) + ' TL';
+    END
+END;
 ```
+
+**Çalışma Mantığı:**
+1. Odunc tablosunda UPDATE işlemi olduğunda tetiklenir
+2. inserted tablosundan güncellenmiş kayıt bilgileri alınır
+3. İade tarihi ile alış tarihi arasındaki fark hesaplanır
+4. 7 günü aşan her gün için 5 TL ceza hesaplanır
+5. CezaKayitlari tablosuna otomatik kayıt eklenir
+
+**Örnek Senaryo:**
+- Öğrenci kitabı 15 günde iade etti
+- Gecikme: 15 - 7 = 8 gün
+- Ceza: 8 × 5 = 40 TL
+
+### 6.5 Diğer Kullanım Alanları
+- **DELETE Trigger**: Silinen kayıtları yedekleme tablosuna taşıma
+- **Otomatik log kaydı**: Tüm değişiklikleri log tablosuna kaydetme
+- **Stok takibi**: Satış yapıldığında stok otomatik azaltma
+- **Veri doğrulama**: Hatalı veri girişini engelleme
 
 ---
 
-## ÖNEMLİ NOTLAR VE İPUÇLARI
+## 7. ARA SINAV BİLGİLERİ
 
-### ✅ Sınavda Mutlaka Bilin:
+### 7.1 Sınav Tarihi ve Süresi
+- **Tarih**: 22/11/2024
+- **Saat**: 10:00
+- **Süre**: 90 dakika
 
-**1. Temel Tanımlar:**
-- İlişkisel veritabanı nedir?
-- Primary Key vs Foreign Key
-- DDL, DML, DCL, TCL nedir?
-- VTYS üstünlükleri (10 tane)
+### 7.2 Soru Dağılımı
+1. **Kavramsal Sorular** (20 puan)
+   - İlişkisel veri tabanı tanımı
+   - VTYS kavramları (tablo, PK, FK)
+   - SQL alt dil grupları
+   - VTYS üstünlükleri
 
-**2. E-R Modelleme:**
-- 1:1, 1:N, N:M ilişkileri ayırt etme
-- Varlıkları ve ilişkileri belirleme
-- Foreign Key'lerin hangi tabloya gideceğini bilme
-- Junction table ne zaman gerekli
+2. **E-R Diyagramı** (35 puan)
+   - Senaryo analizi
+   - Varlık ve ilişki belirleme
+   - Diyagram çizimi (20p)
+   - Tablo dönüşümü (15p)
 
-**3. SQL Komutları:**
-- CREATE DATABASE syntax (NAME, FILENAME, SIZE, MAXSIZE, FILEGROWTH)
-- CREATE TABLE syntax (veri tipleri, IDENTITY, PRIMARY KEY)
-- NCHAR vs NVARCHAR farkı
-- SELECT, WHERE, ORDER BY, DISTINCT, TOP, LIKE
+3. **SQL Kodlama** (15 puan)
+   - CREATE DATABASE (7.5p)
+   - CREATE TABLE (7.5p)
 
-**4. Sorgu Çıktısı:**
-- DISTINCT ne işe yarar
-- ORDER BY DESC nasıl sıralar
-- Subquery nasıl çalışır
-- LIKE 'M%' ne getirir
-
----
-
-### ⚠️ Dikkat Edilecek Noktalar:
-
-**1. NULL Kontrolü:**
-```sql
--- YANLIŞ:
-WHERE marka = NULL
-
--- DOĞRU:
-WHERE marka IS NULL
-WHERE marka IS NOT NULL
-```
-
-**2. String'lerde Türkçe Karakter:**
-```sql
--- YANLIŞ:
-INSERT INTO tblogrenci VALUES ('Şükrü');  -- Hata verebilir
-
--- DOĞRU:
-INSERT INTO tblogrenci VALUES (N'Şükrü');  -- N öneki ekle
-```
-
-**3. IDENTITY Sütununa INSERT:**
-```sql
--- YANLIŞ:
-INSERT INTO tblogrenci (ogrenci_no, ad) VALUES (1000, 'Ali');
-
--- DOĞRU:
-INSERT INTO tblogrenci (ad, soyad) VALUES ('Ali', 'Veli');
--- ogrenci_no otomatik oluşur
-```
-
-**4. ORDER BY Yönü:**
-```sql
-ORDER BY listefiyat;       -- Küçükten büyüğe (ASC varsayılan)
-ORDER BY listefiyat DESC;  -- Büyükten küçüğe
-```
-
-**5. TOP Kullanımı:**
-```sql
--- İlk 3 en ucuz ürün:
-SELECT TOP(3) * FROM tblurun ORDER BY listefiyat;
-
--- İlk 3 en pahalı ürün:
-SELECT TOP(3) * FROM tblurun ORDER BY listefiyat DESC;
-```
+4. **SELECT Sorguları** (20 puan)
+   - DISTINCT, ORDER BY
+   - WHERE, LIKE
+   - Subquery
+   - TOP
 
 ---
 
-## SINAV STRATEJİSİ
+## 8. ÖZET KONTROL LİSTESİ
 
-### Son 7 Gün:
+### Temel Kavramlar
+- [ ] İlişkisel veri tabanı tanımı
+- [ ] VTYS, tablo, PK, FK kavramları
+- [ ] SQL alt dil grupları (DDL, DML, DCL, TCL)
+- [ ] VTYS üstünlükleri
 
-**7 Gün Kala:**
-- Bu dokümanı baştan sona oku
-- Tüm tanımları ezberle
-- E-R örneklerini çiz
+### E-R Diyagramı
+- [ ] İlişki türleri (1:1, 1:N, N:M)
+- [ ] Varlık ve ilişki belirleme
+- [ ] Tablo dönüşüm kuralları
+- [ ] 3 örnek senaryo (Okul, Kargo, Kütüphane)
 
-**5 Gün Kala:**
-- 2024 sınav sorularını çöz
-- SQL komutlarını yaz ve test et
-- E-R senaryolarını tekrar et
+### SQL İşlemleri
+- [ ] CREATE DATABASE söz dizimi
+- [ ] CREATE TABLE (veri tipleri, IDENTITY, constraints)
+- [ ] INSERT (tek ve çoklu satır)
+- [ ] ALTER TABLE
+- [ ] SELECT (DISTINCT, WHERE, LIKE, ORDER BY, TOP, subquery)
 
-**3 Gün Kala:**
-- VTYS üstünlüklerini ezberle (10 tane)
-- SQL alt dillerini örneklerle açıklayabilmelisin
-- CREATE DATABASE ve CREATE TABLE syntax'ını ezberle
+### JOIN İşlemleri
+- [ ] RIGHT JOIN mantığı ve kullanımı
+- [ ] NULL değerlerin JOIN'deki rolü
 
-**1 Gün Kala:**
-- Önemli formülleri gözden geçir
-- E-R diyagram çizim kurallarını tekrar et
-- NULL, DISTINCT, LIKE, ORDER BY kullanımını pekiştir
+### Stored Procedure
+- [ ] Tanım ve avantajları
+- [ ] CREATE PROCEDURE söz dizimi
+- [ ] EXEC ile çağırma
+- [ ] Haftalık rapor örneği
 
----
-
-### Puan Dağılımı ve Strateji:
-
-| Soru | Puan | Zorluk | Strateji |
-|------|------|--------|----------|
-| Soru 1 | 20P | Kolay | Tam puan al! Tanımları ezberle |
-| Soru 2 | 10P | Kolay | 10 üstünlüğü yaz |
-| Soru 3 | 35P | Orta-Zor | E-R kurallarına DİKKAT! En önemli soru |
-| Soru 4 | 15P | Orta | Syntax hatası yapma |
-| Soru 5 | 20P | Orta | Sorgu çıktısını adım adım hesapla |
-
-**Hedef:** 100/100
-
----
-
-## SON SÖZ
-
-Bu dokümandaki 2024 sınav sorularını çöz ve anlarsanız **100 üzerinden 100 alacaksınız!**
-
-**Önemli Hatırlatmalar:**
-- ✅ E-R modelleme çok önemli (%35)
-- ✅ Kuralları dikkatlice oku (1:1, 1:N, N:M)
-- ✅ SQL syntax hatası yapma
-- ✅ NCHAR vs NVARCHAR farkını bil
-- ✅ NULL kontrolü IS NULL ile
-- ✅ Türkçe karakterler için N'...' kullan
-
-Başarılar! 🎓
+### Trigger
+- [ ] Tanım ve kullanım alanları
+- [ ] AFTER UPDATE trigger
+- [ ] inserted ve deleted tabloları
+- [ ] Geç iade ceza hesaplama örneği
 
 ---
 
-**Güncelleme:** 13 Ocak 2026
-**Kaynak:** VT_Guz_arasinav.pdf (22/11/2024), er-iliski-odev.pdf, VT 2025-2026 Ders Notları
-**Hazırlayan:** Claude AI + Ders Materyalleri Analizi
+## 9. ÖNEMLİ NOTLAR
+
+1. **E-R Diyagramında İlişki Belirleme:**
+   - "Bir X'in birçok Y'si olabilir" → 1:N
+   - "Bir X sadece bir Y'ye ait" → N:1
+   - "Her ikisi de birden fazla" → N:M (ara tablo gerekir)
+
+2. **Foreign Key Yerleşimi:**
+   - 1:N ilişkide FK, N tarafına eklenir
+   - N:M ilişkide ara tablo oluşturulur, her iki PK de ara tabloda FK olur
+
+3. **LIKE Operatörü Joker Karakterler:**
+   - `%`: Sıfır veya daha fazla karakter
+   - `_`: Tek karakter
+   - Örnek: `'M%'` → M ile başlayanlar, `'%an'` → an ile bitenler
+
+4. **Trigger vs Stored Procedure:**
+   - **Trigger**: Otomatik çalışır, INSERT/UPDATE/DELETE ile tetiklenir
+   - **Stored Procedure**: Manuel çalıştırılır, EXEC komutuyla
+
+5. **IDENTITY Kullanımı:**
+   - `IDENTITY(1000,1)`: 1000'den başlar, 1'er artar
+   - Primary key için ideal (otomatik ID)
+
+---
+
+**Hazırlayan:** Sınav Hazırlık Rehberi
+**Güncelleme:** 2024-2025 Güz Dönemi
+**Kapsam:** er-iliski-odev.pdf, VT_Guz_arasinav.pdf, join_sunumu.pptx, procedure.pptx, trigger.pptx
